@@ -59,7 +59,7 @@ class Lexer:
         return self.tokens
 
 
-# AST Nodes (add FunctionCall node for mythical functions)
+
 
 class ASTNode:
     pass
@@ -132,7 +132,7 @@ class FunctionStmt(ASTNode):
     def __repr__(self):
         return f"FunctionStmt({self.func_name}, {self.condition}, {self.statements})"
 
-# New AST node for mythical/custom functions called in expressions
+
 class FunctionCall(ASTNode):
     def __init__(self, func_name, args):
         self.func_name = func_name
@@ -141,7 +141,7 @@ class FunctionCall(ASTNode):
         return f"FunctionCall({self.func_name}, {self.args})"
 
 
-# Parser with expression parsing (precedence, parentheses, function calls)
+
 
 class Parser:
     def __init__(self, tokens):
@@ -182,13 +182,13 @@ class Parser:
         elif tok_type == "DENY":
             return self.deny_stmt()
         elif tok_type == "IDENTIFIER":
-            # Could be assignment or expression statement (but you have only assignments)
-            # So, check if next token is ASSIGN:
+        
+           
             next_tok_type = self.tokens[self.pos + 1][0] if (self.pos + 1) < len(self.tokens) else None
             if next_tok_type == "ASSIGN":
                 return self.assign_stmt()
             else:
-                # Or expression statement? (Not in original spec)
+                
                 raise RuntimeError(f"Unexpected IDENTIFIER without assignment: {self.current_token}")
         elif tok_type == "QUESTION":
             return self.conditional_stmt()
@@ -265,7 +265,7 @@ class Parser:
         else:
             return left
 
-    # Expression parser with precedence, function calls, parentheses
+   
     def expression(self):
         return self.expr_or()
 
@@ -339,10 +339,10 @@ class Parser:
             return Literal(tok_val == "true")
 
         elif tok_type == "IDENTIFIER":
-            # Could be variable or function call
+            
             self.advance()
             if self.current_token[0] == "LPAREN":
-                # Function call
+               
                 func_name = tok_val
                 self.expect("LPAREN")
                 args = []
@@ -464,7 +464,7 @@ class Runtime:
                 else:
                     raise RuntimeError(f"Unknown function: {node.func_name}")
 
-        # New support for mythical function calls in expressions
+       
         elif isinstance(node, FunctionCall):
             args_evaluated = [self.get_value(arg) for arg in node.args]
             return self.call_mythical_function(node.func_name, args_evaluated)
@@ -541,7 +541,7 @@ class Runtime:
             return self.get_value(node)
 
     def apply_op(self, left, op, right):
-        # Arithmetic and logical ops for BinaryOp evaluation
+       
         if op == "+":
             return left + right
         elif op == "-":
@@ -573,20 +573,19 @@ class Runtime:
         else:
             raise RuntimeError(f"Unknown operator: {op}")
 
-    # New mythical functions dispatcher
     def call_mythical_function(self, func_name, args):
         func_name_lower = func_name.lower()
-        # Example swag mythical functions:
+        
 
         if func_name_lower == "phoenix":
-            # phoenix(x): multiplies input by 10, swag style
+            
             if len(args) != 1:
                 raise RuntimeError(f"phoenix() expects 1 argument, got {len(args)}")
             print(f"[Mythical] phoenix invoked with arg {args[0]}")
             return args[0] * 10
 
         elif func_name_lower == "leviathan":
-            # leviathan(x,y): x ^ y (power)
+          
             if len(args) != 2:
                 raise RuntimeError(f"leviathan() expects 2 arguments, got {len(args)}")
             print(f"[Mythical] leviathan invoked with args {args}")
