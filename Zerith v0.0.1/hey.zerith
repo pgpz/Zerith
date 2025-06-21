@@ -1,0 +1,11 @@
+→ "Welcome to Zerith!" ⚡ user
+greeting ← "Welcome to Zerith!"
+
+msg4u ← "This is for the liminal! "
+
+arch:
+
+→ "This was made to be a mythical experience!" ⚡ user
+→ "If you want to learn this lanugage, I suggest you be in a different state of mind." ⚡ user
+→ "Be safe and happy learning!" ⚡ user
+void:
